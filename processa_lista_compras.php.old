@@ -1,0 +1,52 @@
+<?php
+include 'conexao.php';
+
+if (isset($_POST['acao'])) {
+
+    // --- LÓGICA PARA ADICIONAR ---
+    if ($_POST['acao'] == 'adicionar') {
+        $item = $_POST['item'];
+        $sql = "INSERT INTO lista_compras (item) VALUES (?)";
+        $stmt = mysqli_prepare($conexao, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $item);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    } 
+    
+    // --- LÓGICA PARA REMOVER ---
+    elseif ($_POST['acao'] == 'remover') {
+        $id = $_POST['id'];
+        $sql = "DELETE FROM lista_compras WHERE id = ?";
+        $stmt = mysqli_prepare($conexao, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+    }
+    
+    // --- NOVA LÓGICA PARA MARCAR/DESMARCAR ---
+    elseif ($_POST['acao'] == 'marcar') {
+        $id = $_POST['id'];
+        // Primeiro, descobrimos o estado atual
+        $sql_check = "SELECT comprado FROM lista_compras WHERE id = ?";
+        $stmt_check = mysqli_prepare($conexao, $sql_check);
+        mysqli_stmt_bind_param($stmt_check, "i", $id);
+        mysqli_stmt_execute($stmt_check);
+        $resultado = mysqli_stmt_get_result($stmt_check);
+        $item = mysqli_fetch_assoc($resultado);
+        
+        // Invertemos o valor: se era 0 vira 1, se era 1 vira 0
+        $novo_estado = $item['comprado'] ? 0 : 1;
+
+        // Atualizamos no banco com o novo estado
+        $sql_update = "UPDATE lista_compras SET comprado = ? WHERE id = ?";
+        $stmt_update = mysqli_prepare($conexao, $sql_update);
+        mysqli_stmt_bind_param($stmt_update, "ii", $novo_estado, $id);
+        mysqli_stmt_execute($stmt_update);
+        mysqli_stmt_close($stmt_update);
+    }
+}
+
+mysqli_close($conexao);
+header('Location: index.php');
+exit;
+?>

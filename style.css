@@ -1,0 +1,642 @@
+/* =================================
+   1. ESTILOS GERAIS E LAYOUT PRINCIPAL
+   ================================= */
+
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f9; color: #333; line-height: 1.6; margin: 0; padding: 20px; }
+main { max-width: 1100px; margin: 0 auto; background: #fff; padding: 25px 40px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+hr { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 86, 179, 0.5), rgba(0, 0, 0, 0)); margin: 40px 0; }
+
+/* =================================
+   2. TIPOGRAFIA (TEXTOS)
+   ================================= */
+
+h1, h2, h3 { color: #0056b3; }
+h1 { text-align: center; margin-bottom: 10px; }
+h2 { border-bottom: 2px solid #eef; padding-bottom: 10px; margin-bottom: 25px; }
+
+/* =================================
+   ESTILOS DO CABEÇALHO E MENU DO USUÁRIO
+   ================================= */
+
+/* Adicione esta nova regra */
+.container-header h1 {
+    margin-right: auto; /* Truque de flexbox: empurra o menu do usuário para a direita */
+}
+
+/* Ajuste no menu para um espaçamento agradável */
+.menu-usuario {
+    margin-left: 20px; /* Adiciona um respiro entre o título e o nome */
+}
+
+
+.container-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.menu-usuario {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-usuario > span {
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+.dropdown-content {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    right: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    overflow: hidden; /* Garante que os cantos dos links fiquem arredondados */
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* A mágica acontece aqui: mostra o dropdown ao passar o mouse */
+.menu-usuario:hover .dropdown-content {
+    display: block;
+}
+
+/* =================================
+   3. LAYOUT DE LISTAS (CATEGORIAS) - VERSÃO CORRIGIDA
+   ================================= */
+
+.form-nova-categoria { display: flex; gap: 10px; margin-bottom: 30px; }
+.form-nova-categoria input[type="text"] { flex-grow: 1; margin: 0; }
+.form-nova-categoria button { white-space: nowrap; }
+
+.grid-categorias {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+/* --- CORREÇÃO 1: ALINHAMENTO DO TÍTULO E ÍCONES DA CATEGORIA --- */
+.card-categoria-gatilho {
+    display: flex;
+    align-items: center; /* Alinha verticalmente */
+    gap: 5px; /* Espaço entre o título e os ícones */
+    padding: 5px;
+    background-color: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.card-categoria-gatilho:hover {
+    background-color: #e9e9e9;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.card-categoria-gatilho h3 {
+    margin: 0;
+    font-size: 1.0rem;
+    color: #333;
+}
+.acoes-categoria {
+    margin-left: auto; /* <<< A MÁGICA: Joga os ícones para a direita */
+    display: flex;
+    gap: 10px;
+}
+/* ------------------------------------------------------------------- */
+
+
+/* Estilos do Modal (janela flutuante) */
+.conteudo-lista-modal {
+    display: flex;
+    flex-direction: column;
+}
+.form-add-item { display: flex; gap: 5px; }
+.form-add-item input[type="text"] { flex-grow: 1; margin: 0; }
+.form-add-item button { font-size: 1.5rem; line-height: 1; padding: 5px 12px; }
+
+/* --- CORREÇÃO 2: ALINHAMENTO DOS ITENS DENTRO DO MODAL --- */
+.conteudo-lista-modal ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 15px;
+    overflow-y: auto;
+    max-height: 250px;
+}
+.conteudo-lista-modal li {
+    display: flex;           /* <<< Liga o alinhamento em linha */
+    align-items: center;     /* <<< Alinha tudo verticalmente */
+    gap: 10px;               /* <<< Espaço entre o check, o nome e o 'X' */
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+}
+.conteudo-lista-modal .form-check-item,
+.conteudo-lista-modal .form-remove-item {
+    margin: 0; /* Remove margens que podem atrapalhar */
+    flex-shrink: 0; /* Impede que os formulários encolham */
+}
+.conteudo-lista-modal li span {
+    flex-grow: 1; /* <<< Faz o nome do item ocupar todo o espaço vago */
+}
+.item-comprado span {
+    text-decoration: line-through;
+    color: #888;
+}
+.btn-remover-item {
+    background: none; border: none; color: #aaa; font-weight: bold; cursor: pointer;
+    padding: 5px;
+}
+.btn-remover-item:hover { color: #dc3545; }
+.lista-vazia { color: #999; font-style: italic; text-align: center; }
+/* ------------------------------------------------------------------- */
+
+/* =================================
+   4. ESTILOS DE DESPESAS E HISTÓRICO
+   ================================= */
+
+/* Estilos para o formulário de Nova Despesa */
+.form-despesa {
+    background-color: #fdfdfd;
+    padding: 20px;
+    border: 1px solid #e9e9e9;
+    border-radius: 5px;
+}
+
+/* Estilos gerais para campos de formulário (revisado para ser mais abrangente) */
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"], /* Adicionamos o tipo email para garantir que se aplique */
+input[type="password"], /* Adicionamos o tipo password para garantir que se aplique */
+select {
+    width: 100%; /* Vamos usar 100% e controlar com o box-sizing */
+    box-sizing: border-box; /* Garante que padding não aumente a largura total */
+    padding: 8px; /* <<< Diminuímos o preenchimento interno */
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem; /* <<< Diminuímos a fonte dentro do campo */
+}
+
+input:focus, select:focus {
+    border-color: #0056b3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}
+
+/* Estilos gerais para botões de submissão */
+button[type="submit"] {
+    background: linear-gradient(to bottom, #0069d9, #0056b3); /* Fundo em gradiente */
+    color: white;
+    padding: 5px 8px; /* Aumentei um pouco a largura para o visual 3D */
+    border: 1px solid #004085; /* Borda principal escura */
+    border-bottom: 3px solid #004085; /* Borda inferior mais grossa para efeito 3D */
+    border-radius: 5px; /* Cantos um pouco mais arredondados */
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2); /* Sombra no texto */
+    transition: all 0.1s ease-in-out; /* Transição para todas as propriedades */
+}
+
+/* Efeito ao passar o mouse: um leve brilho */
+button[type="submit"]:hover {
+    background: linear-gradient(to bottom, #007bff, #0069d9);
+    border-color: #0056b3;
+}
+
+/* Efeito ao CLICAR no botão: ele "afunda" */
+button[type="submit"]:active {
+    background: linear-gradient(to bottom, #0056b3, #0069d9);
+    border-bottom: 1px solid #004085; /* A borda inferior diminui */
+    transform: translateY(2px); /* Move o botão 2px para baixo */
+}
+
+/* button[type="submit"]:hover {
+    background-color: #004494;
+} */
+
+/* Estilos para a seção de link para a página de histórico */
+.link-historico {
+    text-align: center;
+    padding: 20px;
+}
+
+.btn-principal {
+    display: inline-block;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 13px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-principal:hover {
+    background-color: #218838;
+}
+
+/* =================================
+   ESTILOS CORRIGIDOS PARA A TABELA DE HISTÓRICO
+   ================================= */
+
+.tabela-historico {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    font-size: 0.9rem;
+}
+.tabela-historico th, 
+.tabela-historico td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.tabela-historico thead th {
+    background-color: #0056b3;
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+.tabela-historico tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+.tabela-historico tbody tr:hover {
+    background-color: #e9ecef;
+}
+.tabela-historico tfoot {
+    font-weight: bold;
+    color: #333;
+}
+.tabela-historico tfoot td {
+    border-bottom: none;
+}
+
+
+
+/* Estilo para o botão de voltar na página de histórico */
+.btn-voltar {
+    display: inline-block;
+    background-color: #6c757d; /* Um tom de cinza neutro */
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    border: 1px solid #6c757d;
+}
+
+.btn-voltar:hover {
+    background-color: #5a6268; /* Cinza um pouco mais escuro */
+    border-color: #5a6268;
+}
+
+/* =================================
+   ESTILOS PARA PÁGINAS DE LOGIN/REGISTRO
+   ================================= */
+
+.form-auth {
+    max-width: 300px; /* Define uma largura máxima para o formulário */
+    margin: 15px auto; /* Centraliza o formulário na página */
+    padding: 15px;
+    background-color: #fdfdfd;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.form-auth label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+.form-auth input {
+    width: 100%; /* Garante que o input ocupe todo o espaço */
+    box-sizing: border-box; /* Evita que o padding aumente a largura total */
+    padding-right: 10px; /* Garante o padding original sem o ícone */
+}
+
+/* Ajuste específico para o container do input com ícone dentro do form-auth */
+.form-auth .input-com-icone input {
+    width: 100%;
+    padding-right: 40px; /* Mantém o espaço para o ícone */
+}
+/*--------------------------------------------------------------------------------*/
+
+/* Container para os botões e links no final do formulário */
+.acoes-form {
+    margin-top: 25px;
+    display: flex; /* <<< A mágica do alinhamento começa aqui */
+    justify-content: space-between; /* Joga um item para cada lado */
+    align-items: center; /* Alinha eles verticalmente */
+    gap: 20px; /* Adiciona um espaço entre eles */
+}
+
+/* Estilo para o link "Cancelar" ou "Já tenho conta" */
+.btn-cancelar {
+    text-decoration: none;
+    color: #6c757d;
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.btn-cancelar:hover {
+    color: #333;
+}
+
+/* Container para posicionar o ícone de mostrar/ocultar senha */
+.input-com-icone {
+    position: relative; /* Essencial para o posicionamento do ícone */
+    display: flex;
+    align-items: center;
+}
+
+/* Ajusta o input para não sobrepor o ícone */
+.input-com-icone input {
+    width: 100%; /* Ocupa todo o espaço do container */
+    padding-right: 40px; /* Adiciona um espaço à direita para o ícone não ficar em cima do texto */
+}
+
+/* Estilo e posicionamento do ícone */
+.toggle-senha {
+    position: absolute;
+    right: 10px; /* Posição à direita */
+    cursor: pointer;
+    color: #888;
+    user-select: none; /* Impede que o ícone seja selecionado como texto */
+    font-size: 1.2rem;
+}
+
+/* =================================
+   5. ESTILO MENSAGEM DE SUCESSO
+   ================================= */
+
+   .mensagem-sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* =================================
+   6. ESTILO MENSAGEM DE ERRO
+   ================================= */
+
+.mensagem-erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* =================================
+   7. ESTILOS PARA MODAL
+   ================================= */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed; /* Fica fixo na tela, mesmo com scroll */
+    z-index: 1000; /* Garante que fique na frente de tudo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Adiciona scroll se o conteúdo for grande */
+    background-color: rgba(0,0,0,0.6); /* Fundo preto semi-transparente */
+}
+
+.modal-conteudo {
+    background-color: #fefefe;
+    margin: 10% auto; /* 10% do topo e centralizado horizontalmente */
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px; /* Largura máxima da janela */
+    border-radius: 8px;
+    position: relative;
+    animation: animatetop 0.4s; /* Efeito de animação ao abrir */
+}
+
+/* Animação do modal (desliza de cima para baixo) */
+@keyframes animatetop {
+  from {top: -300px; opacity: 0}
+  to {top: 0; opacity: 1}
+}
+
+.modal-fechar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modal-fechar:hover,
+.modal-fechar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* =================================
+   8. ESTILOS PARA AÇÕES DA CATEGORIA
+   (Versão Completa e Corrigida)
+   ================================= */
+
+/* Estilo BASE para os ícones (botões) de ação */
+.btn-acao, a.btn-acao:link, a.btn-acao:visited {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+    line-height: 1;
+    color: #888; /* Define a cor cinza padrão para todos os estados */
+    text-decoration: none; /* Garante que nunca terá sublinhado */
+    transition: all 0.2s ease; /* Animação suave para cor e tamanho */
+}
+
+/* Efeito GERAL ao passar o mouse: aumenta um pouco o ícone */
+.btn-acao:hover {
+    transform: scale(1.2); 
+}
+
+/* Cor VERDE para o ícone de EDITAR ao passar o mouse */
+a.btn-acao[title*="Editar"]:hover {
+    color: #28a745; 
+}
+
+/* Cor VERMELHA para o ícone de EXCLUIR ao passar o mouse */
+button.btn-acao[title*="Excluir"]:hover {
+    color: #dc3545;
+}
+
+/* =================================
+   9. DROPDOWN CUSTOMIZADO
+   ================================= */
+
+/* O formulário que contém o dropdown */
+.form-filtro-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espaço entre o texto "Filtrar por Mês" e o dropdown */
+    margin-bottom: 25px;
+    background-color: #f0f5fa; /* Fundo azul claro para destacar */
+    padding: 15px;
+    border-radius: 5px;
+}
+
+/* O container principal do nosso dropdown */
+.dropdown-custom {
+    position: relative; /* Essencial para posicionar a lista de opções */
+    display: inline-block;
+    width: 100%;
+}
+
+/* O botão clicável que mostra o mês selecionado */
+.dropdown-selecionado {
+    background-color: white;
+    color: #333;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap; /* Impede que o texto quebre linha */
+    overflow: hidden; /* Esconde texto que não couber */
+    text-overflow: ellipsis; /* Adiciona "..." se o texto for muito longo */
+    position: relative;
+    padding-right: 30px; /* Espaço para a seta */
+}
+
+/* A seta para baixo no botão */
+.dropdown-selecionado::after {
+    content: '▼';
+    font-size: 0.7rem;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    transition: transform 0.2s ease;
+}
+
+/* A lista de opções que fica escondida */
+.dropdown-opcoes {
+    display: none; /* Escondido por padrão */
+    position: absolute;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 10; /* Garante que a lista apareça sobre outros elementos */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    max-height: 200px; /* Altura máxima com scroll */
+    overflow-y: auto;
+}
+
+/* Os links dentro da lista de opções */
+.dropdown-opcoes a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-opcoes a:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+/* --- Lógica de abrir/fechar com JavaScript --- */
+
+/* Mostra a lista de opções quando o container tem a classe 'aberto' */
+.dropdown-custom.aberto .dropdown-opcoes {
+    display: block;
+}
+
+/* Gira a setinha para cima quando o menu está aberto */
+.dropdown-custom.aberto .dropdown-selecionado::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+/* =================================
+   10. DESIGN RESPONSIVO (VERSÃO FINAL E FORÇADA)
+   ================================= */
+@media screen and (max-width: 768px) {
+    /* Ajustes Gerais de Layout */
+    body { padding: 10px; }
+    main { padding: 20px 15px; }
+    h1 { font-size: 1.5rem !important; }
+    h2 { font-size: 1.3rem !important; }
+    h3 { font-size: 1.1rem !important; }
+
+    /* --- CORREÇÃO 1: NOME DO USUÁRIO --- */
+    /* Usamos um seletor mais específico para garantir a aplicação */
+    .container-header .menu-usuario > span {
+        font-size: 0.8rem !important;
+        padding: 8px !important;
+        white-space: nowrap; /* Impede a quebra do nome */
+    }
+
+    /* Ajuste do Filtro */
+    .historico-despesas form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+     /* Ajuste do Filtro para não vazar */
+    .historico-despesas form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .historico-despesas form select {
+        width: 100%;
+        font-size: 0.9rem !important; /* <<< Adicionamos esta linha para diminuir a fonte */
+    }
+
+    /* --- CORREÇÃO 2 E 3: TEXTO DA TABELA E BOTÃO "APAGAR" --- */
+    .tabela-historico {
+        width: 100%;
+        table-layout: fixed;
+    }
+    .tabela-historico th, 
+    .tabela-historico td {
+        padding: 8px 4px !important; /* Padding mínimo */
+        font-size: 0.75rem !important; /* Força a fonte pequena */
+        word-break: break-word;
+        vertical-align: middle;
+    }
+    
+    /* Seletor específico para o botão dentro da tabela */
+    .tabela-historico td button {
+        white-space: nowrap !important; /* FORÇA o texto a não quebrar */
+        padding: 6px 8px !important;    /* Força o padding menor */
+        font-size: 0.7rem !important;   /* Força a fonte menor */
+        width: auto; /* Garante que o botão se ajuste ao texto */
+    }
+}
